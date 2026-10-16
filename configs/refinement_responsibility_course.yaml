@@ -1,0 +1,19 @@
+source_config: runs/refinement/B3_summary_training/batch_130000713/config.yaml
+output_dir: runs/refinement/responsibility_course
+data_dir: data/refinement/responsibility_course
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+seed: 230000713
+learning_rate: 1.0e-5
+optimizer_steps: 80
+gradient_accumulation_steps: 4
+validation_roots: data/refinement/b3_generalization/roots.jsonl
+validation_tests: data/refinement/b3_generalization/tests.jsonl
+depth2_seed: 240600713
+depth2_repetitions: 4
+tasks:
+  atomic: [[chunks, chunks, 3], [words, words, 2], [matrix, matrix, 2], [calendar, calendar, 2]]
+  parent_aggregate: [[calendar, matrix, 3], [inventory, ledger, 3], [graph, inventory, 3], [intervals, matrix, 3]]
+  parent_prepare: [[ledger, inventory, 3], [inventory, graph, 3], [matrix, intervals, 3], [intervals, intervals, 3]]
+  pipeline: [[graph, ledger, 3], [ledger, graph, 3], [inventory, inventory, 3], [matrix, calendar, 3]]
+  joint_obligation: [[ledger, ledger, 3], [graph, graph, 3], [polynomial, polynomial, 3], [paths, paths, 3]]
+  recursive: [[calendar, matrix, 4], [intervals, matrix, 4], [chunks, chunks, 4], [words, words, 4]]

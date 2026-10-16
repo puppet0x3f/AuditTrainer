@@ -1,0 +1,15 @@
+course_dir: runs/refinement/responsibility_course
+output_dir: runs/refinement/body_transfer
+data_dir: data/refinement/body_transfer
+validation_roots: data/refinement/b3_generalization/roots.jsonl
+validation_tests: data/refinement/b3_generalization/tests.jsonl
+single_adapter: runs/refinement/body_fit/PURE_BODY/final_adapter
+learning_rate: 1.0e-5
+optimizer_steps: 120
+gradient_accumulation_steps: 4
+seed: 250000713
+probe_seed: 250600713
+samples_per_state: 4
+natural_seed: 260600713
+natural_repetitions: 1
+methods: [B0, SINGLE_BODY, MULTI_BODY]

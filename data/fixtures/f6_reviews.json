@@ -1,0 +1,348 @@
+{
+  "purpose": "Offline fixture responsibility reviews; never policy input",
+  "fixtures": [
+    {
+      "root_id": "fx01_integer_sum",
+      "fixture_path": "data/fixtures/fx01_integer_sum.json",
+      "fixture_hash": "0a53ab76c556c3006d86d5866d310fc9b5fabd6968b62a0344ba53005518c915",
+      "reviews": [
+        {
+          "script_step": 0,
+          "node_id": "N0",
+          "action_hash": "1c69f5501652e9483102d0d515fa93fd2d17871eefc1f1eda0dff039a7d4a221",
+          "contract_spec_hash": "e5b6849337978182cc5203068d09c0fda869f9c743aca4b7d623cbd8538931ed",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns parsing, summation and decimal formatting including empty input; no delegated responsibilities or external I/O."
+        },
+        {
+          "script_step": 1,
+          "node_id": "N0",
+          "action_hash": "3e4ea01a6dd590c8454883a09a0ce76b6c7521a31b91fb174e057ea6421183f9",
+          "contract_spec_hash": "e5b6849337978182cc5203068d09c0fda869f9c743aca4b7d623cbd8538931ed",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns parsing, summation and decimal formatting including empty input; no delegated responsibilities or external I/O."
+        }
+      ]
+    },
+    {
+      "root_id": "fx02_range_sums",
+      "fixture_path": "data/fixtures/fx02_range_sums.json",
+      "fixture_hash": "db8eca927216d8281334f665c9fd11dd23d99c7e5aee5152f1d1ec3904bfb8e8",
+      "reviews": [
+        {
+          "script_step": 0,
+          "node_id": "N0",
+          "action_hash": "e942663ad51dc8c4eddde8e98b38c18be3ee726352c357ab71c5f8ae42cd6ced",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Plan delegates prefix construction and interval arithmetic; implementation only parses JSON, passes values, consumes query results and formats output."
+        },
+        {
+          "script_step": 1,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "0046a31bcaa33c4bbbabb60e253649484a58d214788bcf082a1567ecabeb7514",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 2,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "fa7c1babe8dbbfba939d9da371ec933c4d5431627c43451f5427af73578c39ea",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 5,
+          "node_id": "N0",
+          "action_hash": "f8fdcca16fda569dde018c6d02cc47f5a015ffe7371e8baac46682031bffa389",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 6,
+          "node_id": "N0_p1_query",
+          "action_hash": "0f3cf5d5d6fca2e1f58fd80605b2a030dc25f3efa1869f7864843dd0b356e167",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 7,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "9ba5006530c58a36e00c23e4f1c9adb781f9106439801c06177ffd99468564aa",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 8,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "d526b7a609e9943d9ecbed91acb229cddcaf133112a19ecd8459ea8615d2cc13",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 11,
+          "node_id": "N0_p1_query",
+          "action_hash": "8635fb2dc5342e4376434e4a38fba71ba43a6128c539cefaa65998d97b8932ad",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 12,
+          "node_id": "N0_p1_query",
+          "action_hash": "452a061b07b33fbf058e800dcf3e81636942600af1dbc9e770a3916674ca6bc7",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 15,
+          "node_id": "N0",
+          "action_hash": "450c8f5fb158184b52cb237b228ba85ad40c57146cf119fa1ff05fe3ccf62e03",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 16,
+          "node_id": "N0",
+          "action_hash": "e45ed8d7a77a6b044053c8bf06ae9ae121f0a48bcf511529666eef56c464e57a",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Plan delegates prefix construction and interval arithmetic; implementation only parses JSON, passes values, consumes query results and formats output."
+        }
+      ]
+    },
+    {
+      "root_id": "fx05_failed_parent",
+      "fixture_path": "data/fixtures/fx05_failed_parent.json",
+      "fixture_hash": "7fae8db4af8ae57e725b0f75f292c1ead8710c7a436450baa790ec0166446eee",
+      "reviews": [
+        {
+          "script_step": 0,
+          "node_id": "N0",
+          "action_hash": "e942663ad51dc8c4eddde8e98b38c18be3ee726352c357ab71c5f8ae42cd6ced",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Plan delegates prefix construction and interval arithmetic; implementation only parses JSON, passes values, consumes query results and formats output."
+        },
+        {
+          "script_step": 1,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "0046a31bcaa33c4bbbabb60e253649484a58d214788bcf082a1567ecabeb7514",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 2,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "fa7c1babe8dbbfba939d9da371ec933c4d5431627c43451f5427af73578c39ea",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 5,
+          "node_id": "N0",
+          "action_hash": "f8fdcca16fda569dde018c6d02cc47f5a015ffe7371e8baac46682031bffa389",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 6,
+          "node_id": "N0_p1_query",
+          "action_hash": "0f3cf5d5d6fca2e1f58fd80605b2a030dc25f3efa1869f7864843dd0b356e167",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 7,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "9ba5006530c58a36e00c23e4f1c9adb781f9106439801c06177ffd99468564aa",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 8,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "d526b7a609e9943d9ecbed91acb229cddcaf133112a19ecd8459ea8615d2cc13",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 11,
+          "node_id": "N0_p1_query",
+          "action_hash": "8635fb2dc5342e4376434e4a38fba71ba43a6128c539cefaa65998d97b8932ad",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 12,
+          "node_id": "N0_p1_query",
+          "action_hash": "452a061b07b33fbf058e800dcf3e81636942600af1dbc9e770a3916674ca6bc7",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 15,
+          "node_id": "N0",
+          "action_hash": "450c8f5fb158184b52cb237b228ba85ad40c57146cf119fa1ff05fe3ccf62e03",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 16,
+          "node_id": "N0",
+          "action_hash": "5ce6c5f704fdb838f665aab22e2f3c329e4c96dea5200d1d2c741e0c073ee26e",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "VIOLATION",
+          "label_origin": "controlled_transform",
+          "rationale": "Reverses query answers, violating ordered output despite correct child results."
+        }
+      ]
+    },
+    {
+      "root_id": "fx06_bypassed_child",
+      "fixture_path": "data/fixtures/fx06_bypassed_child.json",
+      "fixture_hash": "342cbba8a0b21c5bfcfa489e7e0b456e8f78304086dbf305dd7251b2bf73ca46",
+      "reviews": [
+        {
+          "script_step": 0,
+          "node_id": "N0",
+          "action_hash": "e942663ad51dc8c4eddde8e98b38c18be3ee726352c357ab71c5f8ae42cd6ced",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Plan delegates prefix construction and interval arithmetic; implementation only parses JSON, passes values, consumes query results and formats output."
+        },
+        {
+          "script_step": 1,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "0046a31bcaa33c4bbbabb60e253649484a58d214788bcf082a1567ecabeb7514",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 2,
+          "node_id": "N0_p1_prefix",
+          "action_hash": "fa7c1babe8dbbfba939d9da371ec933c4d5431627c43451f5427af73578c39ea",
+          "contract_spec_hash": "df1c1c4e770e91b04ed3f444f588b71134ed5075d863ee5ad913775d3a8e932c",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns prefix construction only: starts with zero and appends cumulative sums without mutating input or answering queries."
+        },
+        {
+          "script_step": 5,
+          "node_id": "N0",
+          "action_hash": "f8fdcca16fda569dde018c6d02cc47f5a015ffe7371e8baac46682031bffa389",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 6,
+          "node_id": "N0_p1_query",
+          "action_hash": "0f3cf5d5d6fca2e1f58fd80605b2a030dc25f3efa1869f7864843dd0b356e167",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 7,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "9ba5006530c58a36e00c23e4f1c9adb781f9106439801c06177ffd99468564aa",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 8,
+          "node_id": "N0_p1_query_p1_difference",
+          "action_hash": "d526b7a609e9943d9ecbed91acb229cddcaf133112a19ecd8459ea8615d2cc13",
+          "contract_spec_hash": "60019ba394b8117e551064341791a013ac6724bf85c599a8b10cb43810ccc53b",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns endpoint subtraction only: returns prefix[right]-prefix[left] without side effects."
+        },
+        {
+          "script_step": 11,
+          "node_id": "N0_p1_query",
+          "action_hash": "8635fb2dc5342e4376434e4a38fba71ba43a6128c539cefaa65998d97b8932ad",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 12,
+          "node_id": "N0_p1_query",
+          "action_hash": "452a061b07b33fbf058e800dcf3e81636942600af1dbc9e770a3916674ca6bc7",
+          "contract_spec_hash": "5b87b4aead9c0e4de1f92eea1dbf43a38b964a93f305e687926abf347ff3d403",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Owns iteration and result composition; delegates each endpoint subtraction to the selected difference function."
+        },
+        {
+          "script_step": 15,
+          "node_id": "N0",
+          "action_hash": "450c8f5fb158184b52cb237b228ba85ad40c57146cf119fa1ff05fe3ccf62e03",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "SUPPORTED",
+          "label_origin": "scripted_fixture",
+          "rationale": "Reviewed child interface agrees with the parent plan, and the declared alias/version is the intended explicit dependency selection; this review does not certify later parent code."
+        },
+        {
+          "script_step": 16,
+          "node_id": "N0",
+          "action_hash": "00cf0b070fe497a6e0003a9e107ecd5bffe2eb09c5ce14eb770fda5f7103e356",
+          "contract_spec_hash": "2f55a40e36d587035502fe7cd5e4a2f72a9259f389092d0b18543da82520a555",
+          "verdict": "VIOLATION",
+          "label_origin": "controlled_transform",
+          "rationale": "Calls query but discards its return, then recomputes delegated interval sums; functional equality does not establish responsibility fulfillment."
+        }
+      ]
+    }
+  ]
+}

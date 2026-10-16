@@ -1,0 +1,45 @@
+protocol_version: at-v3r1
+assignment_unit: root_and_family
+derived_samples_inherit_split: true
+roots_file: data/manifests/roots.jsonl
+splits:
+  SYN_FIXTURE:
+    purpose: Deterministic fixtures, interface checks, and trainer smoke.
+    training_use: smoke_only
+    formal_results: false
+  DEV_ENGINEERING:
+    purpose: Real LLM integration and debugging.
+    training_use: development_only
+    formal_results: false
+  DEV_MECHANISM:
+    purpose: Limited P1–P3 mechanism selection.
+    training_use: none
+    formal_results: false
+  TRAIN:
+    purpose: Demonstrations, candidates, transformations, SFT and optional preferences.
+    training_use: formal
+    formal_results: false
+  VALIDATION:
+    purpose: Checkpoint selection and one limited revision.
+    training_use: none
+    formal_results: false
+  MECHANISM_HOLDOUT:
+    purpose: Unseen responsibility configurations, failures, and common failure evaluation.
+    training_use: none
+    formal_results: true
+  APPS_SEALED:
+    purpose: Frozen final evaluation on the supported APPS subset.
+    training_use: none
+    formal_results: true
+  EXTERNAL_SEALED:
+    purpose: One external evaluation domain after framework completion.
+    training_use: none
+    formal_results: true
+rules:
+  - Assign roots and families before exporting actions.
+  - All children, candidates, rewrites, faults, repairs, and derived local samples inherit the root split.
+  - Record source dataset, original split, source task ID, family, source hash, and I/O type at import.
+  - Previously inspected public tasks belong to development; downloading again does not make them unseen.
+  - TRAIN private checks may select labels offline but must not enter decision-time observations.
+  - SEALED private checks only score selected outputs; they cannot trigger or select repairs.
+  - Unknown public pretraining exposure is not a claim of benchmark cleanliness.

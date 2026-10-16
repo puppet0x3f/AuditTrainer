@@ -1,0 +1,4 @@
+extends: F00.yaml
+training:
+  max_steps: 5
+  output_dir: runs/a5/pilot/F00_seed42

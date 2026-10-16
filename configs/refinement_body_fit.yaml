@@ -1,0 +1,11 @@
+source_config: runs/refinement/B3_summary_training/batch_130000713/config.yaml
+scoring_result: runs/refinement/calendar_scoring_v2/result.json
+target: runs/refinement/B3_calendar_target/target.json
+output_dir: runs/refinement/body_fit
+seed: 210000713
+learning_rate: 1.0e-5
+optimizer_steps: 80
+max_grad_norm: 1.0
+conditional_split_samples: 64
+probe_seed: 220600713
+reference_target_count: 52

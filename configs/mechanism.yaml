@@ -1,0 +1,31 @@
+# A2 development comparison, fixed before the first model inference.
+stage: A2
+protocol_version: a2-mechanism-v1.2
+framework_config: configs/framework.yaml
+root_manifest: data/manifests/roots.jsonl
+test_manifest: data/manifests/tests.jsonl
+split: DEV_MECHANISM
+limit: 20
+seed: 20260908
+output_dir: runs/a2
+model:
+  adapter: null
+  load_in_4bit: true
+decoding:
+  do_sample: false
+generation:
+  plan: 1600
+  write_code: 1024
+  consume: 384
+  control: 384
+  auxiliary: 1200
+budget:
+  max_model_calls: 10
+  max_total_tokens: 65536
+  max_runtime_steps: 40
+  max_verify_calls: 24
+  max_patch_attempts: 3
+  context_tokens: 8192
+generation_arms: [coarse, functions, hierarchical, posthoc, static]
+repair_arms: [R0, R1, R2]
+selection: first_visible_all_pass_no_regression

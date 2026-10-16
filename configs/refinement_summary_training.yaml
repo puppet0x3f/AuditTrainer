@@ -1,0 +1,16 @@
+base_config: configs/refinement_coverage.yaml
+output_dir: runs/refinement/B3_summary_training
+root_ids:
+- train_transfer_calendar_matrix_03
+- train_transfer_intervals_matrix_03
+- train_transfer_chunks_chunks_03
+batch_seeds: [130000713, 140000713]
+evaluation_seeds: [150600713, 160600713]
+split_candidates: 8
+continuations_per_candidate: 4
+baseline_repetitions: 4
+optimizer_steps: 20
+natural_repetitions: 16
+parent_composition_summary: true
+signal_gate: Each batch must contain at least one registered locally covered distinct-allocation reward contrast, and each root must have a positive successful-plan imitation target.
+decision: Expand tasks only if B3 has more final successes than same-batch SUCCESS_SFT in all four batch-by-evaluation-seed comparisons. Mixed directions or ties do not establish repeatable extra benefit.

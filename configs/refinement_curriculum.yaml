@@ -1,0 +1,38 @@
+# TRAIN-only calibration; no parameter updates or held-out task access.
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/curriculum/roots.jsonl
+test_manifest: data/refinement/curriculum/tests.jsonl
+split: TRAIN
+seed: 713
+root_limit: 6
+root_ids:
+  - train_inventory_03
+  - train_inventory_04
+  - train_ledger_03
+  - train_ledger_04
+  - train_matrix_03
+  - train_matrix_04
+repair: disabled
+output_dir: runs/refinement/PR1C
+runtime_overrides:
+  max_depth: 1
+reference_repetitions: 4
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1_support/adaptation
+update:
+  enabled: false

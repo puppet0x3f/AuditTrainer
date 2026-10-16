@@ -1,0 +1,6 @@
+course_config: configs/refinement_responsibility_course.yaml
+planner_adapter: runs/refinement/responsibility_course/training/final_adapter
+output_dir: runs/refinement/depth2_local
+seed: 240600713
+repetitions: 4
+arms: [ATOMIC, REFERENCE_SPLIT, NATURAL]

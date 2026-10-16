@@ -1,0 +1,136 @@
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/b3_coverage/roots.jsonl
+test_manifest: data/refinement/b3_coverage/tests.jsonl
+split: TRAIN
+seed: 239713
+root_limit: 12
+repair: disabled
+output_dir: runs/refinement/B3_coverage/calibration
+runtime_overrides:
+  max_depth: 1
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1C_support/adaptation
+update:
+  enabled: false
+  epochs: 10
+  gradient_accumulation_groups: 3
+  learning_rate: 1.0e-06
+  clip_epsilon: 0.2
+  kl_weight: 0.02
+  sft_weight: 0.02
+  objective_scale: 0.00390625
+  max_grad_norm: 1.0
+  check_reward_gradients: true
+sampling_rounds: 5
+round_seed_stride: 10000
+diagnostic_sampling_dir: runs/refinement/PR1C_supported
+evaluation:
+  seed: 339713
+  focus_root: train_transfer_inventory_ledger_03
+  natural_repetitions:
+    train_transfer_graph_inventory_03: 5
+    train_transfer_inventory_ledger_03: 5
+    train_transfer_ledger_inventory_03: 5
+    train_transfer_inventory_graph_03: 5
+    train_transfer_ledger_graph_03: 5
+    train_transfer_intervals_matrix_03: 5
+    train_transfer_calendar_matrix_03: 5
+    train_transfer_intervals_intervals_03: 5
+    train_transfer_matrix_matrix_03: 5
+    train_transfer_chunks_chunks_03: 5
+    train_transfer_paths_paths_03: 5
+    train_transfer_polynomial_polynomial_03: 5
+  conditional_split_samples: 12
+transfers:
+- - graph
+  - inventory
+  - 3
+- - inventory
+  - ledger
+  - 3
+- - ledger
+  - inventory
+  - 3
+- - inventory
+  - graph
+  - 3
+- - ledger
+  - graph
+  - 3
+- - intervals
+  - matrix
+  - 3
+- - calendar
+  - matrix
+  - 3
+- - intervals
+  - intervals
+  - 3
+- - matrix
+  - matrix
+  - 3
+- - chunks
+  - chunks
+  - 3
+- - paths
+  - paths
+  - 3
+- - polynomial
+  - polynomial
+  - 3
+diagnostic_root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+fixed_control_dir: runs/refinement/PR1C_multiround/B3
+fixed_control_config: configs/refinement_multiround.yaml
+round_root_ids:
+- &id001
+  - train_transfer_graph_inventory_03
+  - train_transfer_inventory_ledger_03
+  - train_transfer_ledger_inventory_03
+- - train_transfer_calendar_matrix_03
+  - train_transfer_intervals_matrix_03
+  - train_transfer_matrix_matrix_03
+- - train_transfer_inventory_graph_03
+  - train_transfer_ledger_graph_03
+  - train_transfer_polynomial_polynomial_03
+- - train_transfer_intervals_intervals_03
+  - train_transfer_chunks_chunks_03
+  - train_transfer_paths_paths_03
+- *id001
+root_ids:
+- train_transfer_calendar_matrix_03
+- train_transfer_chunks_chunks_03
+- train_transfer_graph_inventory_03
+- train_transfer_intervals_intervals_03
+- train_transfer_intervals_matrix_03
+- train_transfer_inventory_graph_03
+- train_transfer_inventory_ledger_03
+- train_transfer_ledger_graph_03
+- train_transfer_ledger_inventory_03
+- train_transfer_matrix_matrix_03
+- train_transfer_paths_paths_03
+- train_transfer_polynomial_polynomial_03
+source_root_manifest: data/refinement/b3_coverage/roots.jsonl
+source_test_manifest: data/refinement/b3_coverage/tests.jsonl
+reference_repetitions: 4
+collect_policy_samples: false
+selection_reason: 'Twelve predeclared TRAIN responsibility compositions: three original
+  anchors, four additional compatible component pairings, five familiar self-pairings
+  with the same public contract catalog. Covers dict, numeric list, string and nested-list
+  boundaries. Calibrate all four plan forms, keep every task and result, and do not
+  mix authored plans into RL. This is coverage of TRAIN compositions, not twelve unseen
+  algorithm families.'

@@ -1,0 +1,13 @@
+source_config: runs/refinement/B3_summary_training/batch_130000713/config.yaml
+source_fixed_plan: runs/refinement/B3_fixed_plan/result.json
+output_dir: runs/refinement/B3_calendar_target
+root_id: train_transfer_calendar_matrix_03
+preferred_variant: parent_aggregate
+methods: [GATE_SFT, BODY_SFT, JOINT_SFT]
+seed: 180000713
+optimizer_steps: 20
+conditional_split_samples: 32
+probe_seed: 180600713
+evaluation_seeds: [190600713, 200600713]
+natural_repetitions: 24
+decision: The positive control connects learning to execution only if JOINT_SFT increases exact gate probability and conditional good-plan frequency, and increases first good-plan choices and final successes versus B0 in both fresh 24-seed blocks. Other branches diagnose the two target losses, with shared-parameter spillover explicitly allowed. No claim of RL necessity or held-out task generalization.

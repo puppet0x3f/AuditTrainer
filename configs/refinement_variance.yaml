@@ -1,0 +1,74 @@
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/B3_coverage/B3/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/b3_coverage/roots.jsonl
+test_manifest: data/refinement/b3_coverage/tests.jsonl
+split: TRAIN
+seed: 119713
+root_limit: 3
+repair: disabled
+output_dir: runs/refinement/B3_variance
+runtime_overrides:
+  max_depth: 1
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1C_support/adaptation
+update:
+  enabled: true
+  epochs: 10
+  gradient_accumulation_groups: 6
+  learning_rate: 1.0e-06
+  clip_epsilon: 0.2
+  kl_weight: 0.02
+  sft_weight: 0.02
+  objective_scale: 0.00390625
+  max_grad_norm: 1.0
+  check_reward_gradients: true
+diagnostic_sampling_dir: runs/refinement/PR1C_supported
+evaluation:
+  seed: 539713
+  focus_root: train_transfer_inventory_ledger_03
+  natural_repetitions:
+    train_transfer_graph_inventory_03: 5
+    train_transfer_inventory_ledger_03: 5
+    train_transfer_ledger_inventory_03: 5
+    train_transfer_inventory_graph_03: 5
+    train_transfer_ledger_graph_03: 5
+    train_transfer_intervals_matrix_03: 5
+    train_transfer_calendar_matrix_03: 5
+    train_transfer_intervals_intervals_03: 5
+    train_transfer_matrix_matrix_03: 5
+    train_transfer_chunks_chunks_03: 5
+    train_transfer_paths_paths_03: 5
+    train_transfer_polynomial_polynomial_03: 5
+  conditional_split_samples: 12
+diagnostic_root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+reference_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+optimizer_state: runs/refinement/B3_coverage/B3/round_05/B3/optimizer.pt
+retention_offset: 150
+training_roots:
+- train_transfer_calendar_matrix_03
+- train_transfer_chunks_chunks_03
+- train_transfer_intervals_matrix_03
+- train_transfer_inventory_graph_03
+- train_transfer_inventory_ledger_03
+- train_transfer_ledger_graph_03
+wide_split_counts:
+  train_transfer_calendar_matrix_03: 8
+  train_transfer_chunks_chunks_03: 9
+  train_transfer_intervals_matrix_03: 8
+  train_transfer_inventory_graph_03: 9
+  train_transfer_inventory_ledger_03: 8
+  train_transfer_ledger_graph_03: 9

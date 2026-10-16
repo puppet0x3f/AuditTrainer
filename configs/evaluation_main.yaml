@@ -1,0 +1,23 @@
+# A3 development entry; all DEV_ENGINEERING roots, main root budget.
+# Formal held-out evaluation and checkpoint selection belong to later stages.
+framework_config: configs/frozen_mechanism.yaml
+root_manifest: data/manifests/roots.jsonl
+test_manifest: data/manifests/tests.jsonl
+split: DEV_ENGINEERING
+limit: null
+seed: 42
+max_policy_calls: 64
+apps:
+  supported_type: stdin
+  entrypoint: 'solve(text: str) -> str'
+selection:
+  feedback: visible_only
+  private_tests: score_selected_candidate_only
+reporting:
+  first_program_snapshot: true
+  budgeted_final_snapshot: true
+  retain_all_roots: true
+  include_unknown_and_errors: true
+  include_all_calls_tokens_verifications_and_replays: true
+  zero_success_cost: null
+output_dir: runs/evaluation_main

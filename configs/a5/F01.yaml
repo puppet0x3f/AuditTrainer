@@ -1,0 +1,10 @@
+extends: ../sft_main.yaml
+stage: A5
+data:
+  path: data/sft/a5/F01.jsonl
+  allow_function_only: false
+  schedule_path: data/sft/a5/F01.schedule.jsonl
+  matched_slot_budget: 2240
+training:
+  output_dir: runs/a5/train/F01_seed42
+  activation_offload: true

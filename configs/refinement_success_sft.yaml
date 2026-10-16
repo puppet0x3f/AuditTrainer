@@ -1,0 +1,21 @@
+base_config: configs/refinement_coverage.yaml
+output_dir: runs/refinement/B3_success_sft
+calibration_source: runs/refinement/B3_coverage/calibration/result.json
+root_ids:
+- train_transfer_calendar_matrix_03
+- train_transfer_intervals_matrix_03
+- train_transfer_chunks_chunks_03
+preferred_variants:
+  train_transfer_calendar_matrix_03: [parent_aggregate]
+  train_transfer_intervals_matrix_03: [parent_aggregate]
+  train_transfer_chunks_chunks_03: [atomic, pipeline, fused]
+batch_seeds: [91000713, 92000713]
+calibration_seed: 90100713
+calibration_repetitions: 4
+split_candidates: 8
+continuations_per_candidate: 4
+baseline_repetitions: 4
+optimizer_steps: 20
+evaluation_seed: 93000713
+natural_repetitions: 16
+conditional_split_samples: 24

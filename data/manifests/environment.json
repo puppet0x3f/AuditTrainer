@@ -1,0 +1,54 @@
+{
+  "stage": "A0",
+  "checked_at_utc": "2026-09-07T02:57:58.978792+00:00",
+  "python": "3.11.14",
+  "executable": "/home/lc/.conda/envs/audittrainer/bin/python",
+  "environment_name": "audittrainer",
+  "environment_prefix": "/home/lc/.conda/envs/audittrainer",
+  "environment_manager": "conda",
+  "platform": "Linux-5.4.0-81-generic-x86_64-with-glibc2.31",
+  "packages": {
+    "audittrainer": "0.1.0",
+    "torch": "2.10.0",
+    "transformers": "4.57.6",
+    "peft": "0.18.1",
+    "accelerate": "1.14.0",
+    "bitsandbytes": "0.48.2",
+    "pydantic": "2.13.5",
+    "PyYAML": "6.0.3",
+    "pytest": "9.1.1",
+    "tokenizers": "0.22.2",
+    "huggingface-hub": "0.36.2"
+  },
+  "torch_cuda_build": "12.8",
+  "cuda_visible_devices": "3",
+  "gpu": {
+    "name": "NVIDIA RTX 5880 Ada Generation",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "total_memory_bytes": 50876841984,
+    "precision": "bfloat16",
+    "check_peak_tensor_memory_bytes": 8556544
+  },
+  "gpu_inventory": [
+    "0, GPU-fe400275-6b2a-4679-d0e0-7914aeaa3fc7, NVIDIA RTX 5880 Ada Generation, 570.172.08, 49140 MiB, 11602 MiB",
+    "1, GPU-f12de2ec-d0cb-95a0-5dc2-51dee1dc6c60, NVIDIA RTX 5880 Ada Generation, 570.172.08, 49140 MiB, 18114 MiB",
+    "2, GPU-69f65c15-cf73-ba32-da51-6c8e890fc08c, NVIDIA RTX 5880 Ada Generation, 570.172.08, 49140 MiB, 417 MiB",
+    "3, GPU-cca9f18f-a429-94a1-bbda-4d2ddea2506c, NVIDIA RTX 5880 Ada Generation, 570.172.08, 49140 MiB, 45583 MiB"
+  ],
+  "model_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "tokenizer_sha256": "90a2903e36317f2a873560235218be86367fa0ed4209f53096b6d59325fed333",
+  "chat_template_sha256": "a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8",
+  "imported_root_count": 0,
+  "checks": {
+    "training_api_imports": "PASS",
+    "config_yaml_parse_and_model_identity": "PASS",
+    "tokenizer_files_and_nonthinking_prefix": "PASS",
+    "cuda_bfloat16_matmul": "PASS",
+    "bitsandbytes_nf4_double_quant_forward": "PASS",
+    "pip_check": "No broken requirements found."
+  },
+  "scope": "Imports, tokenizer, configuration, and tiny GPU kernels only; no 8B forward, optimizer update, rollout, or sandbox validation."
+}

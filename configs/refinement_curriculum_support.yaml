@@ -1,0 +1,47 @@
+# One finite common structural SFT: 36 unique plans, 108 balanced exposures, 27 updates.
+stage: PR0
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/curriculum_support/roots.jsonl
+test_manifest: data/refinement/curriculum_support/tests.jsonl
+split: TRAIN
+seed: 3713
+root_limit: 9
+repair: disabled
+output_dir: runs/refinement/PR1C_support
+adaptation:
+  source: data/refinement/curriculum_support/plans.jsonl
+  samples_per_root_per_mode: 6
+  gradient_accumulation_steps: 4
+  learning_rate: 2.0e-05
+  epoch_limit: 1
+  max_grad_norm: 1.0
+  activation_offload: false
+  output_dir: runs/refinement/PR1C_support/adaptation
+  root_only: true
+  boundary_tokens: 0
+  boundary_weight: 1.0
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+decision_states:
+  root: true
+  max_additional_natural_states: 0
+  initial_plans_only: true
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+update:
+  enabled: false
+baseline:
+  roots_per_family: 1
+  repetitions: 1
+runtime_overrides:
+  max_depth: 1

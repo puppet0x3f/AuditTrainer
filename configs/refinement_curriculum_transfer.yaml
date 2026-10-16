@@ -1,0 +1,50 @@
+# Compositional TRAIN follow-up, no parameter updates.
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+test_manifest: data/refinement/curriculum_transfer/tests.jsonl
+split: TRAIN
+seed: 2713
+root_limit: 3
+root_ids:
+- train_transfer_inventory_ledger_03
+- train_transfer_ledger_inventory_03
+- train_transfer_graph_inventory_03
+repair: disabled
+output_dir: runs/refinement/PR1C_transfer
+runtime_overrides:
+  max_depth: 1
+reference_repetitions: 4
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1_support/adaptation
+update:
+  enabled: false
+transfers:
+- - inventory
+  - ledger
+  - 3
+- - ledger
+  - inventory
+  - 3
+- - graph
+  - inventory
+  - 3
+selection_reason: Fixed three compositional TRAIN tasks after all 32 inventory calibration
+  runs passed. Reuse familiar dict-valued preparation and aggregation algorithms,
+  change only their pairing; keep all outcomes. No held-out task information used.
+source_root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+source_test_manifest: data/refinement/curriculum_transfer/tests.jsonl

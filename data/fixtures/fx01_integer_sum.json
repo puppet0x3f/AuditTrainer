@@ -1,0 +1,177 @@
+{
+  "task": {
+    "root_id": "fx01_integer_sum",
+    "family_id": "fx01_integer_sum",
+    "split": "SYN_FIXTURE",
+    "spec": "输入为以空白分隔的有限整数序列，允许空字符串。返回所有整数之和的十进制字符串；空序列返回字符串 0。不读取标准输入或进行外部 I/O。",
+    "entrypoint": "solve(text: str) -> str",
+    "visible_suite_ref": "FX01_ROOT_VISIBLE",
+    "private_suite_ref": null
+  },
+  "contract": {
+    "signature": {
+      "name": "solve",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "str"
+        }
+      ],
+      "returns": "str"
+    },
+    "requires": [
+      "text 只含空白及合法十进制整数"
+    ],
+    "ensures": [
+      {
+        "id": "O_SUM",
+        "text": "返回值表示输入所有整数之和"
+      },
+      {
+        "id": "O_OUTPUT",
+        "text": "返回类型为十进制整数字符串"
+      },
+      {
+        "id": "O_EMPTY",
+        "text": "空序列返回字符串 0"
+      }
+    ],
+    "owns": [
+      "parse_and_sum_and_format"
+    ],
+    "uses": [],
+    "must_not": [
+      "读取标准输入",
+      "访问网络或文件系统"
+    ],
+    "frame": {
+      "public_symbol": "solve",
+      "private_helper_prefix": "_",
+      "mutate_inputs": false,
+      "external_io": false
+    }
+  },
+  "script": [
+    {
+      "node_id": "N0",
+      "phase": "NEW",
+      "output": {
+        "action": "plan",
+        "args": {
+          "base_plan_version": 0,
+          "mode": "ATOMIC",
+          "children": [],
+          "obligation_map": {
+            "O_SUM": [
+              "SELF"
+            ],
+            "O_OUTPUT": [
+              "SELF"
+            ],
+            "O_EMPTY": [
+              "SELF"
+            ]
+          },
+          "retained_responsibilities": [
+            "parse_and_sum_and_format"
+          ],
+          "dataflow": [],
+          "ticket_id": null
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "IMPLEMENT",
+      "output": {
+        "action": "write_code",
+        "args": {
+          "contract_version": 1,
+          "source": "def solve(text):\n    return str(sum(map(int, text.split())))\n",
+          "declared_dependencies": []
+        }
+      }
+    }
+  ],
+  "completion_script": [
+    {
+      "node_id": "N0",
+      "phase": "READY_VERIFY",
+      "output": {
+        "action": "verify",
+        "args": {
+          "target_ref": "artifacts/N0/v1.py",
+          "suite_id": "FX01_ROOT_VISIBLE"
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "REVIEW",
+      "output": {
+        "action": "finish",
+        "args": {
+          "artifact_version": 1
+        }
+      }
+    }
+  ],
+  "suites": [
+    {
+      "suite_id": "FX01_ROOT_VISIBLE",
+      "contract_version": 1,
+      "check_kind": "ROOT",
+      "visibility": "VISIBLE",
+      "oracle_origin": "Hand-reviewed FX01 integer arithmetic cases; expected values fixed before execution.",
+      "covered_obligations": [
+        "O_SUM",
+        "O_OUTPUT",
+        "O_EMPTY"
+      ],
+      "cases": [
+        {
+          "case_id": "positive",
+          "args": [
+            "7 3"
+          ],
+          "expected": "10"
+        },
+        {
+          "case_id": "empty",
+          "args": [
+            ""
+          ],
+          "expected": "0"
+        },
+        {
+          "case_id": "mixed_sign",
+          "args": [
+            "-7 3 -2"
+          ],
+          "expected": "-6"
+        },
+        {
+          "case_id": "single",
+          "args": [
+            "42"
+          ],
+          "expected": "42"
+        },
+        {
+          "case_id": "whitespace",
+          "args": [
+            "  1\n 2\t3  "
+          ],
+          "expected": "6"
+        },
+        {
+          "case_id": "large_int",
+          "args": [
+            "999999999999999999999 1"
+          ],
+          "expected": "1000000000000000000000"
+        }
+      ]
+    }
+  ]
+}

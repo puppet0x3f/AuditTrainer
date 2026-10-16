@@ -1,0 +1,56 @@
+# One common on-policy collection round; B3/B4 reuse identical raw candidates.
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/pr1/roots.jsonl
+test_manifest: data/refinement/pr1/tests.jsonl
+split: TRAIN
+seed: 42
+root_limit: 10
+repair: disabled
+output_dir: runs/refinement/PR1
+adaptation:
+  source: data/sft/a6/F11_C.jsonl
+  samples_per_root_per_mode: 2
+  gradient_accumulation_steps: 8
+  learning_rate: 2.0e-05
+  epoch_limit: 1
+  max_grad_norm: 1.0
+  activation_offload: false
+  output_dir: runs/refinement/PR1_support/adaptation
+  root_only: true
+  boundary_tokens: 8
+  boundary_weight: 1.0
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+decision_states:
+  root: true
+  max_additional_natural_states: 0
+  initial_plans_only: true
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+update:
+  enabled: true
+  epochs: 2
+  gradient_accumulation_groups: 2
+  learning_rate: 1.0e-06
+  clip_epsilon: 0.2
+  kl_weight: 0.02
+  sft_weight: 0.02
+  objective_scale: 0.00390625
+  max_grad_norm: 1.0
+baseline:
+  roots_per_family: 1
+  repetitions: 1
+evaluation:
+  validation_repetitions: 2
+  train_repetitions: 1

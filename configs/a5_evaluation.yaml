@@ -1,0 +1,25 @@
+framework_config: configs/frozen_mechanism.yaml
+root_manifest: data/manifests/roots.jsonl
+test_manifest: data/manifests/tests.jsonl
+seed: 42
+scope: single_seed_development
+isolation_roots:
+  - mech01_absolute_gaps
+  - mech04_prefix_span
+  - mech07_odd_cubes
+  - mech10_sorted_median
+  - mech13_digit_sums
+  - mech16_sorted_squares
+  - mech19_reverse_negate
+  - mech20_absolute_ranks
+isolation_conditions: [local_plan, transform, summarize, parent_both_children, parent_transform_child]
+free_split: DEV_ENGINEERING
+free_limit: null
+executor:
+  model: public_theta0
+  child_planning: fixed_atomic
+  decisions: [write_code, consume, reject, abstain]
+  controls: fixed_verify_finish
+repair_reference: public_theta0
+selection: first_and_terminal_artifacts_before_private_scoring
+output_dir: runs/a5/evaluation

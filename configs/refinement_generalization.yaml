@@ -1,0 +1,13 @@
+base_config: configs/refinement_coverage.yaml
+output_dir: runs/refinement/B3_generalization
+heldout_dir: data/refinement/b3_generalization
+training_seeds: [20000713, 30000713, 40000713]
+evaluation_seed: 70000713
+evaluation_repetitions: 5
+sampling_rounds: 4
+epochs_per_round: 10
+original_split_schedule:
+- [8, 8, 9]
+- [9, 9, 8]
+- [8, 9, 8]
+- [9, 8, 9]

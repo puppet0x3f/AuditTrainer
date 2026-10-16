@@ -1,0 +1,6 @@
+source_study: configs/refinement_success_sft.yaml
+output_dir: runs/refinement/B3_first_credit
+batch_seeds: [91000713, 92000713]
+optimizer_steps: 20
+evaluation_seed: 100600713
+natural_repetitions: 16

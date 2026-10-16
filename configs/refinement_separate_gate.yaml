@@ -1,0 +1,13 @@
+output_dir: runs/refinement/separate_gate
+source_dir: runs/refinement/interface_gate
+body_adapter: runs/refinement/body_transfer/MULTI_BODY/final_adapter
+sft_roots: [train_course_calendar_matrix_03, train_course_intervals_matrix_03]
+sft_labels: [SPLIT, ATOMIC]
+sft_steps: 80
+sft_learning_rate: 2.0e-5
+calibration_steps: 48
+calibration_learning_rate: 1.0e-5
+kl_weight: 0.05
+close_margin: 0.1
+minimum_direction_change: 0.05
+seed: 310000713

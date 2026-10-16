@@ -1,0 +1,811 @@
+{
+  "task": {
+    "root_id": "fx06_bypassed_child",
+    "family_id": "fx02_range_sums",
+    "split": "SYN_FIXTURE",
+    "spec": "输入 JSON 含整数数组 values 与合法半开区间 ranges。按原顺序返回区间和的十进制字符串，用换行分隔；无区间返回空字符串。",
+    "entrypoint": "solve(text: str) -> str",
+    "visible_suite_ref": "FX02_ROOT_VISIBLE",
+    "private_suite_ref": null
+  },
+  "contract": {
+    "signature": {
+      "name": "solve",
+      "parameters": [
+        {
+          "name": "text",
+          "type": "str"
+        }
+      ],
+      "returns": "str"
+    },
+    "requires": [
+      "text 为 JSON 对象，含整数数组 values 和合法半开区间数组 ranges"
+    ],
+    "ensures": [
+      {
+        "id": "O_RANGES",
+        "text": "按原顺序输出每个区间的整数和，以换行分隔；没有区间时返回空字符串"
+      }
+    ],
+    "owns": [
+      "parse_input",
+      "compose_prefix_and_queries",
+      "format_output"
+    ],
+    "uses": [],
+    "must_not": [
+      "不修改输入，不执行外部 I/O"
+    ],
+    "frame": {
+      "public_symbol": "solve",
+      "private_helper_prefix": "_",
+      "mutate_inputs": false,
+      "external_io": false
+    }
+  },
+  "local_contracts": {
+    "prefix": {
+      "signature": {
+        "name": "prefix_sums",
+        "parameters": [
+          {
+            "name": "xs",
+            "type": "list[int]"
+          }
+        ],
+        "returns": "list[int]"
+      },
+      "requires": [
+        "xs 为整数数组"
+      ],
+      "ensures": [
+        {
+          "id": "O_PREFIX",
+          "text": "返回以 0 开头的累加和数组，长度 len(xs)+1"
+        }
+      ],
+      "owns": [
+        "build_prefix_sums"
+      ],
+      "uses": [],
+      "must_not": [
+        "不修改输入，不执行外部 I/O"
+      ],
+      "frame": {
+        "public_symbol": "prefix_sums",
+        "private_helper_prefix": "_",
+        "mutate_inputs": false,
+        "external_io": false
+      }
+    },
+    "query": {
+      "signature": {
+        "name": "range_sums",
+        "parameters": [
+          {
+            "name": "prefix",
+            "type": "list[int]"
+          },
+          {
+            "name": "ranges",
+            "type": "list[list[int]]"
+          }
+        ],
+        "returns": "list[int]"
+      },
+      "requires": [
+        "prefix 是以 0 开头的前缀和数组",
+        "每个区间满足 0 <= left <= right < len(prefix)"
+      ],
+      "ensures": [
+        {
+          "id": "O_QUERIES",
+          "text": "按区间原顺序返回 prefix[right]-prefix[left]"
+        }
+      ],
+      "owns": [
+        "iterate_ranges",
+        "compose_range_answers"
+      ],
+      "uses": [],
+      "must_not": [
+        "不修改输入，不执行外部 I/O"
+      ],
+      "frame": {
+        "public_symbol": "range_sums",
+        "private_helper_prefix": "_",
+        "mutate_inputs": false,
+        "external_io": false
+      }
+    },
+    "difference": {
+      "signature": {
+        "name": "range_sum",
+        "parameters": [
+          {
+            "name": "prefix",
+            "type": "list[int]"
+          },
+          {
+            "name": "left",
+            "type": "int"
+          },
+          {
+            "name": "right",
+            "type": "int"
+          }
+        ],
+        "returns": "int"
+      },
+      "requires": [
+        "prefix 是以 0 开头的前缀和数组",
+        "0 <= left <= right < len(prefix)"
+      ],
+      "ensures": [
+        {
+          "id": "O_DIFFERENCE",
+          "text": "返回 prefix[right]-prefix[left]"
+        }
+      ],
+      "owns": [
+        "subtract_prefix_endpoints"
+      ],
+      "uses": [],
+      "must_not": [
+        "不修改输入，不执行外部 I/O"
+      ],
+      "frame": {
+        "public_symbol": "range_sum",
+        "private_helper_prefix": "_",
+        "mutate_inputs": false,
+        "external_io": false
+      }
+    }
+  },
+  "script": [
+    {
+      "node_id": "N0",
+      "phase": "NEW",
+      "output": {
+        "action": "plan",
+        "args": {
+          "base_plan_version": 0,
+          "mode": "SPLIT",
+          "children": [
+            {
+              "local_key": "prefix",
+              "contract": {
+                "signature": {
+                  "name": "prefix_sums",
+                  "parameters": [
+                    {
+                      "name": "xs",
+                      "type": "list[int]"
+                    }
+                  ],
+                  "returns": "list[int]"
+                },
+                "requires": [
+                  "xs 为整数数组"
+                ],
+                "ensures": [
+                  {
+                    "id": "O_PREFIX",
+                    "text": "返回以 0 开头的累加和数组，长度 len(xs)+1"
+                  }
+                ],
+                "owns": [
+                  "build_prefix_sums"
+                ],
+                "uses": [],
+                "must_not": [
+                  "不修改输入，不执行外部 I/O"
+                ],
+                "frame": {
+                  "public_symbol": "prefix_sums",
+                  "private_helper_prefix": "_",
+                  "mutate_inputs": false,
+                  "external_io": false
+                }
+              }
+            },
+            {
+              "local_key": "query",
+              "contract": {
+                "signature": {
+                  "name": "range_sums",
+                  "parameters": [
+                    {
+                      "name": "prefix",
+                      "type": "list[int]"
+                    },
+                    {
+                      "name": "ranges",
+                      "type": "list[list[int]]"
+                    }
+                  ],
+                  "returns": "list[int]"
+                },
+                "requires": [
+                  "prefix 是以 0 开头的前缀和数组",
+                  "每个区间满足 0 <= left <= right < len(prefix)"
+                ],
+                "ensures": [
+                  {
+                    "id": "O_QUERIES",
+                    "text": "按区间原顺序返回 prefix[right]-prefix[left]"
+                  }
+                ],
+                "owns": [
+                  "iterate_ranges",
+                  "compose_range_answers"
+                ],
+                "uses": [],
+                "must_not": [
+                  "不修改输入，不执行外部 I/O"
+                ],
+                "frame": {
+                  "public_symbol": "range_sums",
+                  "private_helper_prefix": "_",
+                  "mutate_inputs": false,
+                  "external_io": false
+                }
+              }
+            }
+          ],
+          "obligation_map": {
+            "O_RANGES": [
+              "child:prefix",
+              "child:query",
+              "SELF:parse_and_format"
+            ]
+          },
+          "retained_responsibilities": [
+            "parse_input",
+            "compose_prefix_and_queries",
+            "format_output"
+          ],
+          "dataflow": [
+            {
+              "from_child": "prefix",
+              "from_output": "return",
+              "to_child": "query",
+              "to_parameter": "prefix"
+            }
+          ],
+          "ticket_id": null
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_prefix",
+      "phase": "NEW",
+      "output": {
+        "action": "plan",
+        "args": {
+          "base_plan_version": 0,
+          "mode": "ATOMIC",
+          "children": [],
+          "obligation_map": {
+            "O_PREFIX": [
+              "SELF"
+            ]
+          },
+          "retained_responsibilities": [
+            "build_prefix_sums"
+          ],
+          "dataflow": [],
+          "ticket_id": null
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_prefix",
+      "phase": "IMPLEMENT",
+      "output": {
+        "action": "write_code",
+        "args": {
+          "contract_version": 1,
+          "source": "def prefix_sums(xs):\n    result = [0]\n    for x in xs:\n        result.append(result[-1] + x)\n    return result\n",
+          "declared_dependencies": []
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_prefix",
+      "phase": "READY_VERIFY",
+      "output": {
+        "action": "verify",
+        "args": {
+          "target_ref": "artifacts/N0_p1_prefix/v1.py",
+          "suite_id": "FX02_PREFIX_VISIBLE"
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_prefix",
+      "phase": "REVIEW",
+      "output": {
+        "action": "finish",
+        "args": {
+          "artifact_version": 1
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "RESOLVE_CHILD",
+      "output": {
+        "action": "consume",
+        "args": {
+          "child_id": "N0_p1_prefix",
+          "artifact_version": 1,
+          "artifact_hash": "0ec5d8abaadc20838b550a6e9a17acc63ce9487ffecd5fd426bc3e2491bfe02e",
+          "alias": "prefix",
+          "evidence_ids": [
+            "E0001"
+          ],
+          "accept_unverified": false
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query",
+      "phase": "NEW",
+      "output": {
+        "action": "plan",
+        "args": {
+          "base_plan_version": 0,
+          "mode": "SPLIT",
+          "children": [
+            {
+              "local_key": "difference",
+              "contract": {
+                "signature": {
+                  "name": "range_sum",
+                  "parameters": [
+                    {
+                      "name": "prefix",
+                      "type": "list[int]"
+                    },
+                    {
+                      "name": "left",
+                      "type": "int"
+                    },
+                    {
+                      "name": "right",
+                      "type": "int"
+                    }
+                  ],
+                  "returns": "int"
+                },
+                "requires": [
+                  "prefix 是以 0 开头的前缀和数组",
+                  "0 <= left <= right < len(prefix)"
+                ],
+                "ensures": [
+                  {
+                    "id": "O_DIFFERENCE",
+                    "text": "返回 prefix[right]-prefix[left]"
+                  }
+                ],
+                "owns": [
+                  "subtract_prefix_endpoints"
+                ],
+                "uses": [],
+                "must_not": [
+                  "不修改输入，不执行外部 I/O"
+                ],
+                "frame": {
+                  "public_symbol": "range_sum",
+                  "private_helper_prefix": "_",
+                  "mutate_inputs": false,
+                  "external_io": false
+                }
+              }
+            }
+          ],
+          "obligation_map": {
+            "O_QUERIES": [
+              "child:difference",
+              "SELF:iterate_ranges"
+            ]
+          },
+          "retained_responsibilities": [
+            "iterate_ranges",
+            "compose_range_answers"
+          ],
+          "dataflow": [],
+          "ticket_id": null
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query_p1_difference",
+      "phase": "NEW",
+      "output": {
+        "action": "plan",
+        "args": {
+          "base_plan_version": 0,
+          "mode": "ATOMIC",
+          "children": [],
+          "obligation_map": {
+            "O_DIFFERENCE": [
+              "SELF"
+            ]
+          },
+          "retained_responsibilities": [
+            "subtract_prefix_endpoints"
+          ],
+          "dataflow": [],
+          "ticket_id": null
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query_p1_difference",
+      "phase": "IMPLEMENT",
+      "output": {
+        "action": "write_code",
+        "args": {
+          "contract_version": 1,
+          "source": "def range_sum(prefix, left, right):\n    return prefix[right] - prefix[left]\n",
+          "declared_dependencies": []
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query_p1_difference",
+      "phase": "READY_VERIFY",
+      "output": {
+        "action": "verify",
+        "args": {
+          "target_ref": "artifacts/N0_p1_query_p1_difference/v1.py",
+          "suite_id": "FX02_DIFFERENCE_VISIBLE"
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query_p1_difference",
+      "phase": "REVIEW",
+      "output": {
+        "action": "finish",
+        "args": {
+          "artifact_version": 1
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query",
+      "phase": "RESOLVE_CHILD",
+      "output": {
+        "action": "consume",
+        "args": {
+          "child_id": "N0_p1_query_p1_difference",
+          "artifact_version": 1,
+          "artifact_hash": "91ccc67ecc43c8df3e3d279ea35eec2973056967bc48aa94a873f995cf78d082",
+          "alias": "difference",
+          "evidence_ids": [
+            "E0002"
+          ],
+          "accept_unverified": false
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query",
+      "phase": "IMPLEMENT",
+      "output": {
+        "action": "write_code",
+        "args": {
+          "contract_version": 1,
+          "source": "from nodes.N0_p1_query_p1_difference import range_sum as difference\n\ndef range_sums(prefix, ranges):\n    return [difference(prefix, left, right) for left, right in ranges]\n",
+          "declared_dependencies": [
+            {
+              "child_id": "N0_p1_query_p1_difference",
+              "artifact_version": 1,
+              "artifact_hash": "91ccc67ecc43c8df3e3d279ea35eec2973056967bc48aa94a873f995cf78d082",
+              "alias": "difference"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query",
+      "phase": "READY_VERIFY",
+      "output": {
+        "action": "verify",
+        "args": {
+          "target_ref": "artifacts/N0_p1_query/v1.py",
+          "suite_id": "FX02_QUERY_VISIBLE"
+        }
+      }
+    },
+    {
+      "node_id": "N0_p1_query",
+      "phase": "REVIEW",
+      "output": {
+        "action": "finish",
+        "args": {
+          "artifact_version": 1
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "RESOLVE_CHILD",
+      "output": {
+        "action": "consume",
+        "args": {
+          "child_id": "N0_p1_query",
+          "artifact_version": 1,
+          "artifact_hash": "cdfd533eec479aa7a271bc869d2f7e7053302b766ff036460e8cd54f85264d74",
+          "alias": "query",
+          "evidence_ids": [
+            "E0003"
+          ],
+          "accept_unverified": false
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "IMPLEMENT",
+      "output": {
+        "action": "write_code",
+        "args": {
+          "contract_version": 1,
+          "source": "import json\nfrom nodes.N0_p1_prefix import prefix_sums as prefix\nfrom nodes.N0_p1_query import range_sums as query\n\ndef solve(text):\n    request = json.loads(text)\n    sums = prefix(request[\"values\"])\n    query(sums, request[\"ranges\"])\n    answers = [sum(request[\"values\"][left:right]) for left, right in request[\"ranges\"]]\n    return \"\\n\".join(map(str, answers))\n",
+          "declared_dependencies": [
+            {
+              "child_id": "N0_p1_prefix",
+              "artifact_version": 1,
+              "artifact_hash": "0ec5d8abaadc20838b550a6e9a17acc63ce9487ffecd5fd426bc3e2491bfe02e",
+              "alias": "prefix"
+            },
+            {
+              "child_id": "N0_p1_query",
+              "artifact_version": 1,
+              "artifact_hash": "cdfd533eec479aa7a271bc869d2f7e7053302b766ff036460e8cd54f85264d74",
+              "alias": "query"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "READY_VERIFY",
+      "output": {
+        "action": "verify",
+        "args": {
+          "target_ref": "artifacts/N0/v1.py",
+          "suite_id": "FX02_ROOT_VISIBLE"
+        }
+      }
+    },
+    {
+      "node_id": "N0",
+      "phase": "REVIEW",
+      "output": {
+        "action": "finish",
+        "args": {
+          "artifact_version": 1
+        }
+      }
+    }
+  ],
+  "suites": [
+    {
+      "suite_id": "FX02_ROOT_VISIBLE",
+      "contract_version": 1,
+      "check_kind": "ROOT",
+      "visibility": "VISIBLE",
+      "oracle_origin": "Hand-reviewed FX02 half-open interval arithmetic; expected values fixed before execution.",
+      "covered_obligations": [
+        "O_RANGES"
+      ],
+      "cases": [
+        {
+          "case_id": "case_1",
+          "args": [
+            "{\"values\": [2, -1, 4], \"ranges\": [[0, 3], [1, 2], [0, 0]]}"
+          ],
+          "expected": "5\n-1\n0"
+        },
+        {
+          "case_id": "case_2",
+          "args": [
+            "{\"values\": [], \"ranges\": []}"
+          ],
+          "expected": ""
+        },
+        {
+          "case_id": "case_3",
+          "args": [
+            "{\"values\": [0, 5], \"ranges\": [[1, 2]]}"
+          ],
+          "expected": "5"
+        }
+      ]
+    },
+    {
+      "suite_id": "FX02_PREFIX_VISIBLE",
+      "contract_version": 1,
+      "check_kind": "LOCAL",
+      "visibility": "VISIBLE",
+      "oracle_origin": "Hand-reviewed FX02 half-open interval arithmetic; expected values fixed before execution.",
+      "covered_obligations": [
+        "O_PREFIX"
+      ],
+      "cases": [
+        {
+          "case_id": "case_1",
+          "args": [
+            [
+              2,
+              -1,
+              4
+            ]
+          ],
+          "expected": [
+            0,
+            2,
+            1,
+            5
+          ]
+        },
+        {
+          "case_id": "case_2",
+          "args": [
+            []
+          ],
+          "expected": [
+            0
+          ]
+        },
+        {
+          "case_id": "case_3",
+          "args": [
+            [
+              0,
+              5
+            ]
+          ],
+          "expected": [
+            0,
+            0,
+            5
+          ]
+        }
+      ],
+      "contract_key": "prefix"
+    },
+    {
+      "suite_id": "FX02_QUERY_VISIBLE",
+      "contract_version": 1,
+      "check_kind": "LOCAL",
+      "visibility": "VISIBLE",
+      "oracle_origin": "Hand-reviewed FX02 half-open interval arithmetic; expected values fixed before execution.",
+      "covered_obligations": [
+        "O_QUERIES"
+      ],
+      "cases": [
+        {
+          "case_id": "case_1",
+          "args": [
+            [
+              0,
+              2,
+              1,
+              5
+            ],
+            [
+              [
+                0,
+                3
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                0
+              ]
+            ]
+          ],
+          "expected": [
+            5,
+            -1,
+            0
+          ]
+        },
+        {
+          "case_id": "case_2",
+          "args": [
+            [
+              0
+            ],
+            []
+          ],
+          "expected": []
+        },
+        {
+          "case_id": "case_3",
+          "args": [
+            [
+              0,
+              0,
+              5
+            ],
+            [
+              [
+                1,
+                2
+              ]
+            ]
+          ],
+          "expected": [
+            5
+          ]
+        }
+      ],
+      "contract_key": "query"
+    },
+    {
+      "suite_id": "FX02_DIFFERENCE_VISIBLE",
+      "contract_version": 1,
+      "check_kind": "LOCAL",
+      "visibility": "VISIBLE",
+      "oracle_origin": "Hand-reviewed FX02 half-open interval arithmetic; expected values fixed before execution.",
+      "covered_obligations": [
+        "O_DIFFERENCE"
+      ],
+      "cases": [
+        {
+          "case_id": "case_1",
+          "args": [
+            [
+              0,
+              2,
+              1,
+              5
+            ],
+            0,
+            3
+          ],
+          "expected": 5
+        },
+        {
+          "case_id": "case_2",
+          "args": [
+            [
+              0,
+              2,
+              1,
+              5
+            ],
+            1,
+            2
+          ],
+          "expected": -1
+        },
+        {
+          "case_id": "case_3",
+          "args": [
+            [
+              0
+            ],
+            0,
+            0
+          ],
+          "expected": 0
+        }
+      ],
+      "contract_key": "difference"
+    }
+  ]
+}

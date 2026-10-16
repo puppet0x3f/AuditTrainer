@@ -1,0 +1,2 @@
+source_study: configs/refinement_first_credit.yaml
+output_dir: runs/refinement/B3_sft_replication

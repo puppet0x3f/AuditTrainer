@@ -1,0 +1,13 @@
+output_dir: runs/refinement/interface_gate
+source_dir: runs/refinement/body_transfer
+interface_roots: [train_course_calendar_matrix_04, train_course_chunks_chunks_04]
+value_roots: [train_course_calendar_matrix_03, train_course_intervals_matrix_03, train_course_chunks_chunks_04, train_course_words_words_04, train_course_graph_ledger_03, train_course_inventory_graph_03]
+interface_seed: 270000713
+value_seed: 280000713
+natural_seed: 290000713
+train_seed: 300000713
+optimizer_steps: 48
+learning_rate: 1.0e-5
+kl_weight: 0.05
+body_weight: 1.0
+close_margin: 0.1

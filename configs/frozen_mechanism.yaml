@@ -1,0 +1,165 @@
+# A3 main v1: directly accepted by rollout/smoke/export-sft and the evaluator.
+# model/runtime/repair are executable settings; frozen_mechanism records the research protocol.
+protocol_version: at-v3r1-a3.2
+model:
+  name_or_path: Qwen/Qwen3-8B
+  revision: b968826d9c46dd6066d109eabc6255188de91218
+  local_path: Qwen3-8B
+  enable_thinking: false
+  backend: transformers
+  dtype: bfloat16
+  identity_manifest: data/manifests/model.json
+  load_in_4bit: true
+inference:
+  seed: 42
+  decoding:
+    do_sample: true
+    temperature: 0.7
+    top_p: 0.8
+    top_k: 20
+runtime:
+  schedule: depth_first_sequential
+  max_depth: 2
+  max_nodes: 7
+  max_children: 3
+  max_policy_calls: 64
+  max_total_tokens: 196608
+  max_verify_calls: 32
+  max_child_repair_requests: 1
+  max_patch_attempts: 3
+  max_plan_revisions: 1
+  max_protocol_retries: 1
+  context_tokens: 8192
+  generation_tokens:
+    plan: 2048
+    write_code: 3072
+    repair: 3072
+    control: 512
+    localize: 768
+execution:
+  network: disabled
+  per_case_timeout_seconds: 2
+  memory_mb: 1024
+  max_output_bytes: 1048576
+  max_processes: 1
+repair:
+  candidate_limit: 3
+  parent_expansions: 1
+  automatic_commit_rule: visible_all_pass_no_regression
+  candidate_strategy: responsibility_filtered
+data_check_protocol_version: at-data-check-v1
+frozen_mechanism:
+  version: a3-main-v1.1
+  date: '2026-09-08'
+  data_check_protocol: docs/data_check_protocol_v1.md
+  selection_evidence: reports/A2.md
+  policy: shared_recursive
+  prompt_builder: audittrainer.prompts.prepare_prompt
+  renderer:
+    prompts_sha256: 99a148ee92fa72883831c0fe3ace9be67894890fa3b5a8f301814708f7c42b81
+    schema_sha256: c51e290f8bc0b7213304354e3be529c9f4c9a3c6fcc0e06171c78b9c9493a7f4
+  chat_template_sha256: a55ee1b1660128b7098723e0abcd92caa0788061051c62d51cbe87d9cf1974d8
+  tokenizer_sha256: 90a2903e36317f2a873560235218be86367fa0ed4209f53096b6d59325fed333
+  actions:
+  - abstain
+  - consume
+  - finish
+  - localize
+  - plan
+  - reject
+  - repair
+  - request_child_repair
+  - verify
+  - write_code
+  observation_fields:
+  - protocol_version
+  - root_id
+  - node_id
+  - state_id
+  - phase
+  - mode
+  - root_spec
+  - incoming_contract
+  - current_plan
+  - own_code
+  - current_artifact
+  - available_suites
+  - returned_child
+  - approved_dependencies
+  - child_interfaces
+  - sibling_interfaces
+  - visible_evidence
+  - pending_obligations
+  - unfulfilled_child_ids
+  - repair_ticket
+  - responsibility_candidates
+  - child_repair_request
+  - last_action_result
+  - budget_remaining
+  - allowed_actions
+  - allowed_plan_modes
+  - structure_budget_limited
+  - implementation_stage
+  responsibility:
+    representation: hierarchical_contracts
+    ownership_unit: node_source_module
+    public_symbols_per_module: 1
+    private_helper_prefix: _
+    plan_commitment: incremental_per_node
+    plan_modes:
+    - ATOMIC
+    - SPLIT
+    plan_revision: authorized_plan_subtree_rebuild_incoming_contract_fixed
+    artifact_identity:
+    - node_id
+    - version
+    - source_hash
+    consumption: explicit_exact_version_then_policy_written_composition
+  verification:
+    local_oracle: host_reviewed_exact_contract_and_version
+    missing_oracle: UNKNOWN
+    unknown_responsibility: exclude_from_responsibility_positives_without_independent_review
+    online_visibility: VISIBLE
+    private_selection: false
+    dependency_called_is_semantic_proof: false
+  repair_protocol:
+    locator: R1_responsibility_filtered
+    locator_training: false
+    ticket_boundaries:
+    - OWNER_MODULE
+    - CONSUMER_MODULE
+    - PLAN_SUBTREE
+    frozen_complement: true
+    anchor_stability_replay: true
+    candidate_comparison_replays: false
+    automatic_candidate_rotation: false
+    selection: first_visible_all_pass_no_regression
+  data:
+    split_manifest: data/manifests/splits.yaml
+    root_manifest: data/manifests/roots.jsonl
+    assignment_unit: root_and_family_before_collection
+    development_splits:
+    - DEV_ENGINEERING
+    - DEV_MECHANISM
+    training_split: TRAIN
+    checkpoint_selection_split: VALIDATION
+    evaluation_splits:
+    - MECHANISM_HOLDOUT
+    - APPS_SEALED
+    - EXTERNAL_SEALED
+    core_sft_scopes:
+    - RESPONSIBILITY_SUPPORTED
+    - PROTOCOL_ONLY
+    function_only: separate_control_export
+    negative_types:
+    - FUNCTIONAL_FAILURE
+    - RESPONSIBILITY_VIOLATION_WITH_MATCHED_FUNCTION
+    unknown_is_negative: false
+    input: pre_decision_observation_only
+    train_private_oracle: offline_labels_only
+  training_config: configs/sft_main.yaml
+  evaluation_config: configs/evaluation_main.yaml
+  optimization:
+    main: shared_qlora_sft
+    dpo: false
+    rl: false

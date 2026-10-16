@@ -1,0 +1,24 @@
+output_dir: runs/refinement/B3_parent_composition
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+root_manifest: data/refinement/b3_coverage/roots.jsonl
+test_manifest: data/refinement/b3_coverage/tests.jsonl
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+evaluation_seed: 110600713
+repetitions: 4
+# Fixed before generating either condition. Two observed failures, ten successes.
+# Identical plan/code repeats across models are not counted as new failure types.
+source_cases:
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_chunks_chunks_03/parent_aggregate/repeat_1
+- runs/refinement/B3_sft_replication/evaluation/SUCCESS_SFT_92000713/natural/train_transfer_intervals_matrix_03/repeat_11
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_chunks_chunks_03/parent_aggregate/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_calendar_matrix_03/parent_aggregate/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_graph_inventory_03/pipeline/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_inventory_ledger_03/parent_aggregate/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_ledger_inventory_03/pipeline/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_inventory_graph_03/pipeline/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_ledger_graph_03/parent_aggregate/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_intervals_intervals_03/pipeline/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_matrix_matrix_03/parent_aggregate/repeat_0
+- runs/refinement/B3_coverage/calibration/reference/train_transfer_paths_paths_03/fused/repeat_0

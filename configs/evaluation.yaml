@@ -1,0 +1,22 @@
+# F9 smoke evaluation; private tests score frozen candidates after runtime termination.
+framework_config: configs/framework.yaml
+root_manifest: data/manifests/roots.jsonl
+test_manifest: data/manifests/tests.jsonl
+split: DEV_ENGINEERING
+limit: 5
+seed: 42
+max_policy_calls: 24
+apps:
+  supported_type: stdin
+  entrypoint: "solve(text: str) -> str"
+selection:
+  feedback: visible_only
+  private_tests: score_selected_candidate_only
+reporting:
+  first_program_snapshot: true
+  budgeted_final_snapshot: true
+  retain_all_roots: true
+  include_unknown_and_errors: true
+  include_all_calls_tokens_verifications_and_replays: true
+  zero_success_cost: null # Report N/A.
+output_dir: runs/evaluation

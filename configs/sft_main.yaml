@@ -1,0 +1,42 @@
+# Project configuration; train_sft translates it into Trainer arguments.
+framework_config: configs/frozen_mechanism.yaml
+model:
+  base: Qwen/Qwen3-8B
+  revision: b968826d9c46dd6066d109eabc6255188de91218
+  local_path: Qwen3-8B
+  enable_thinking: false
+  load_in_4bit: true
+  quant_type: nf4
+  double_quant: true
+  compute_dtype: bfloat16
+  device_map: single_visible_gpu
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: all-linear
+  bias: none
+  task_type: CAUSAL_LM
+data:
+  path: data/sft/train.jsonl
+  allowed_splits: [TRAIN]
+  sampling_unit: root_then_action
+  warmup_fraction: 0.2
+  warmup_mix: {D_IMPL: 0.8, D_CONTROL: 0.2}
+  main_mix: {D_PLAN: 0.3, D_IMPL: 0.4, D_COMPOSE: 0.25, D_CONTROL: 0.05}
+training:
+  max_length: 8192
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 0.0001
+  weight_decay: 0.0
+  warmup_ratio: 0.03
+  lr_scheduler_type: cosine
+  max_grad_norm: 1.0
+  gradient_checkpointing: true
+  packing: false
+  loss_normalization: per_example_then_batch
+  seed: 42
+  report_to: none
+  epoch_limit: 1
+  output_dir: runs/sft_main

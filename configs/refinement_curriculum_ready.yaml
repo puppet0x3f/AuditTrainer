@@ -1,0 +1,45 @@
+# Fresh post-support TRAIN pool. Readiness is measured in result.json; RL updates remain disabled.
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+test_manifest: data/refinement/curriculum_transfer/tests.jsonl
+split: TRAIN
+seed: 9713
+root_limit: 3
+repair: disabled
+output_dir: runs/refinement/PR1C_supported
+runtime_overrides:
+  max_depth: 1
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1C_support/adaptation
+update:
+  enabled: false
+  epochs: 2
+  gradient_accumulation_groups: 3
+  learning_rate: 1.0e-06
+  clip_epsilon: 0.2
+  kl_weight: 0.02
+  sft_weight: 0.02
+  objective_scale: 0.00390625
+  max_grad_norm: 1.0
+calibration_sources:
+- runs/refinement/PR1C/result.json
+- runs/refinement/PR1C_transfer/result.json
+selection_reason: 'Fresh sampling covers all three previously fixed compositional
+  tasks: the non-saturated contrast and two executable controls. The six saturated
+  original roots remain in calibration and common SFT. This choice is fixed before
+  post-SFT sampling.'

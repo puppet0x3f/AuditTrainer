@@ -1,0 +1,13 @@
+# A4 new TRAIN pilot. Main action/prompt/oracle/budgets remain the A3 protocol.
+framework_config: configs/frozen_mechanism.yaml
+root_manifest: data/manifests/roots.jsonl
+test_manifest: data/manifests/tests.jsonl
+task_dir: data/train/pilot
+selection: data/train/pilot/selection.json
+trace_dir: data/raw_traces/a4
+report_dir: runs/a4
+trajectories_per_root: 1
+# Stratified natural rollout diagnostic; all 50 roots receive three executed demos.
+collection_parameter: 3
+contrast_parameter: 3
+sft_config: configs/sft_main.yaml

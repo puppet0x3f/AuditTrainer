@@ -1,0 +1,66 @@
+output_dir: runs/refinement/B3_parent_validation
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+root_manifest: data/refinement/parent_validation/roots.jsonl
+test_manifest: data/refinement/parent_validation/tests.jsonl
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+evaluation_seed: 120600713
+repetitions: 4
+source_cases:
+- runs/refinement/PR1C/reference/train_inventory_03/parent_aggregate/repeat_0
+- runs/refinement/PR1C/reference/train_inventory_04/parent_aggregate/repeat_0
+- runs/refinement/PR1C/reference/train_ledger_03/parent_aggregate/repeat_0
+- runs/refinement/PR1C/reference/train_ledger_04/parent_aggregate/repeat_0
+- runs/refinement/PR1C/reference/train_inventory_03/pipeline/repeat_0
+- runs/refinement/PR1C/reference/train_ledger_03/pipeline/repeat_0
+- runs/refinement/B3_generalization/evaluation/SFT/natural/validation_transfer_calendar_chunks_03/repeat_04
+- runs/refinement/B3_generalization/evaluation/SFT/natural/validation_transfer_calendar_intervals_03/repeat_00
+- runs/refinement/B3_generalization/evaluation/original_20000713/natural/validation_transfer_intervals_calendar_03/repeat_03
+- runs/refinement/B3_generalization/evaluation/optimized_30000713/natural/validation_transfer_words_chunks_03/repeat_02
+- runs/refinement/B3_generalization/evaluation/SFT/natural/validation_transfer_words_paths_03/repeat_00
+- runs/refinement/B3_generalization/evaluation/original_20000713/natural/validation_transfer_paths_chunks_03/repeat_04
+- runs/refinement/B3_generalization/evaluation/SFT/natural/validation_transfer_chunks_paths_03/repeat_00
+- runs/refinement/B3_generalization/evaluation/original_30000713/natural/validation_transfer_chunks_paths_03/repeat_04
+- runs/refinement/B3_generalization/evaluation/SFT/natural/validation_transfer_chunks_words_01/repeat_04
+- runs/refinement/B3_generalization/evaluation/original_20000713/natural/validation_transfer_chunks_words_01/repeat_01
+interface_types:
+- dictionary
+- dictionary
+- dictionary
+- dictionary
+- dictionary
+- dictionary
+- list
+- list
+- list
+- list
+- list
+- list
+- string
+- string
+- string
+- string
+source_manifests:
+- roots: data/refinement/curriculum/roots.jsonl
+  tests: data/refinement/curriculum/tests.jsonl
+- roots: data/refinement/b3_generalization/roots.jsonl
+  tests: data/refinement/b3_generalization/tests.jsonl
+previous_study: runs/refinement/B3_parent_composition
+selection_rule: Six dictionary, six list and four string boundaries, with root/interface/plan
+  slots fixed before outcomes. Choose the first eligible consumed local-PASS state
+  by source model order and repetition, without parent outcome filtering. Exclude
+  all prior-study root IDs.
+source_model_order:
+- SFT
+- original_20000713
+- original_30000713
+- original_40000713
+- optimized_20000713
+- optimized_30000713
+- optimized_40000713
+decision:
+  minimum_net_wins: 1
+  minimum_positive_states: 2
+  minimum_positive_roots: 2
+  losses_allowed: true

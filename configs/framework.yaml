@@ -1,0 +1,46 @@
+# A0 starting protocol. The runtime is implemented in F1–F5.
+protocol_version: at-v3r1
+model:
+  name_or_path: Qwen/Qwen3-8B
+  revision: b968826d9c46dd6066d109eabc6255188de91218
+  local_path: Qwen3-8B
+  enable_thinking: false
+  backend: transformers
+  dtype: bfloat16
+  identity_manifest: data/manifests/model.json
+inference:
+  seed: 42
+  decoding:
+    do_sample: true
+    temperature: 0.7
+    top_p: 0.8
+    top_k: 20
+runtime:
+  schedule: depth_first_sequential
+  max_depth: 2 # root = 0
+  max_nodes: 7
+  max_children: 3
+  max_policy_calls: 64 # Shared by the entire root, including retries/repair.
+  max_total_tokens: 196608
+  max_verify_calls: 32
+  max_child_repair_requests: 1 # Per edge.
+  max_patch_attempts: 3 # Entire root, including failed patches.
+  max_plan_revisions: 1 # Per node.
+  max_protocol_retries: 1
+  context_tokens: 8192
+  generation_tokens:
+    plan: 2048
+    write_code: 3072
+    repair: 3072
+    control: 512
+    localize: 768
+execution:
+  network: disabled
+  per_case_timeout_seconds: 2
+  memory_mb: 1024
+  max_output_bytes: 1048576
+  max_processes: 1
+repair:
+  candidate_limit: 3
+  parent_expansions: 1
+  automatic_commit_rule: visible_all_pass_no_regression

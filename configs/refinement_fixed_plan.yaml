@@ -1,0 +1,11 @@
+source_config: runs/refinement/B3_summary_training/batch_130000713/config.yaml
+source_study: runs/refinement/B3_summary_training
+output_dir: runs/refinement/B3_fixed_plan
+root_ids:
+- train_transfer_calendar_matrix_03
+- train_transfer_intervals_matrix_03
+variants: [atomic, parent_aggregate, pipeline]
+execution_seed: 170600713
+repetitions: 12
+seed_block_size: 6
+decision: A decomposition has repeated advantage over ATOMIC only when paired net wins are positive in both prespecified six-seed blocks. Report remaining failures and existing policy selection frequencies separately; this small experiment is not a significance or generalization claim.

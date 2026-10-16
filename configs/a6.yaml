@@ -1,0 +1,26 @@
+stage: A6
+scope: single_seed_development
+data_config: configs/data_pilot.yaml
+baseline_data: data/sft/a5/F11.jsonl
+baseline_schedule: data/sft/a5/F11.schedule.jsonl
+baseline_training: runs/a5/train/F11_seed42
+baseline_evaluation: runs/a5/evaluation/F11
+baseline_result: runs/a5/result.json
+trace_dir: data/raw_traces/a6
+new_data: data/sft/a6/reassignment.jsonl
+revised_data: data/sft/a6/F11_C.jsonl
+revised_schedule: data/sft/a6/F11_C.schedule.jsonl
+training_config: configs/a6_training.yaml
+training_dir: runs/a6/train/F11_C_seed42
+evaluation_config: configs/a5_evaluation.yaml
+evaluation_dir: runs/a6/evaluation
+evaluation_group: F11_C
+report_dir: runs/a6
+revision:
+  number: 1
+  factor: parent_composition_write_code_demonstration_coverage
+  new_condition: child_prepares_parent_aggregates
+  replacement: alternate_parent_write_slots_per_root_starting_with_first
+  primary_metric: parent_transform_child_private_pass
+  stopping: one_data_revision_one_training_run_report_all_outcomes
+  dpo: false

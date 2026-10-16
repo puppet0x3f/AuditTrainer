@@ -1,0 +1,10 @@
+extends: sft_main.yaml
+stage: A6
+data:
+  path: data/sft/a6/F11_C.jsonl
+  allow_function_only: false
+  schedule_path: data/sft/a6/F11_C.schedule.jsonl
+  matched_slot_budget: 2240
+training:
+  output_dir: runs/a6/train/F11_C_seed42
+  activation_offload: true

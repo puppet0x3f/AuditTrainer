@@ -1,0 +1,6 @@
+extends: F11.yaml
+training:
+  max_steps: 5
+  output_dir: runs/a5/pilot/F11_seed42
+data:
+  schedule_path: data/sft/a5/F11.pilot.schedule.jsonl

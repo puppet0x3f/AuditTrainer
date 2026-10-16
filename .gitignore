@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+.env
+.env.*
+Qwen3-8B/
+# Downloaded benchmark corpora and generated refinement datasets are local
+# artifacts; keep lightweight fixtures and manifests in the repository.
+data/taco_source/
+data/refinement/
+data/private_tests/
+data/apps_source/*
+!data/apps_source/README.md
+data/apps_f9/
+data/development/
+data/train/
+data/manifests/roots.jsonl
+data/manifests/tests.jsonl
+data/mechanism/*/
+runs/*
+!runs/.gitkeep
+data/raw_traces/*
+!data/raw_traces/.gitkeep
+data/sft/*
+!data/sft/.gitkeep
+data/apps_source/train_full.jsonl

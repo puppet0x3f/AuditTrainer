@@ -1,0 +1,5 @@
+control_config: runs/refinement/B3_variance/arms/repeat/config.yaml
+control_evaluation: runs/refinement/B3_variance/evaluation/B3_repeat
+evaluation_config: configs/refinement_variance.yaml
+output_dir: runs/refinement/B3_mode_weight
+mode_reward_weight: 4.0

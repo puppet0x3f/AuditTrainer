@@ -1,0 +1,51 @@
+# Fixed before collection: each method resamples its own current policy each round.
+stage: PR1
+framework_config: configs/frozen_mechanism.yaml
+protocol_version: at-v3r1-pr0.1
+initial_adapter: runs/refinement/PR1C_support/adaptation/final_adapter
+executor_adapter: runs/a5/train/F01_seed42/final_adapter
+root_manifest: data/refinement/curriculum_transfer/roots.jsonl
+test_manifest: data/refinement/curriculum_transfer/tests.jsonl
+split: TRAIN
+seed: 39713
+root_limit: 3
+repair: disabled
+output_dir: runs/refinement/PR1C_multiround
+runtime_overrides:
+  max_depth: 1
+candidate_sampling:
+  atomic: 1
+  split_bodies: 3
+  continuations_per_candidate: 2
+  temperature: 1.0
+  top_p: 1.0
+  top_k: 0
+reward:
+  gamma: 1.0
+  cost_weight: 0.0
+  confirmed_violation_weight: 0.2
+adaptation:
+  output_dir: runs/refinement/PR1C_support/adaptation
+update:
+  enabled: true
+  epochs: 10
+  gradient_accumulation_groups: 3
+  learning_rate: 1.0e-06
+  clip_epsilon: 0.2
+  kl_weight: 0.02
+  sft_weight: 0.02
+  objective_scale: 0.00390625
+  max_grad_norm: 1.0
+  check_reward_gradients: true
+sampling_rounds: 5
+round_seed_stride: 10000
+# Only fixed-text/plan diagnostics use this previous pool; no old rewards are trained on.
+diagnostic_sampling_dir: runs/refinement/PR1C_supported
+evaluation:
+  seed: 139713
+  focus_root: train_transfer_inventory_ledger_03
+  natural_repetitions:
+    train_transfer_graph_inventory_03: 10
+    train_transfer_inventory_ledger_03: 40
+    train_transfer_ledger_inventory_03: 10
+  conditional_split_samples: 12
